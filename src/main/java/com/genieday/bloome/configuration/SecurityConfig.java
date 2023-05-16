@@ -10,7 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-    private final CorsConfig corsConfig;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.httpBasic().disable()
@@ -22,7 +21,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest().permitAll()
                 .and()
-                .addFilter(corsConfig.corsFilter()) // ** CorsFilter 등록 **
                 .build();
 
     }
