@@ -1,4 +1,7 @@
+package com.genieday.bloome.configuration;
+
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,6 +15,20 @@ public class CorsWebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**");
         registry.addMapping("/*.html");
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedOriginPatterns("*")
+                .allowedMethods(
+                        HttpMethod.GET.name(),
+                        HttpMethod.HEAD.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.DELETE.name(),
+                        HttpMethod.PATCH.name(),
+                        HttpMethod.OPTIONS.name()
+                )
+                .maxAge(3600)
+                .allowCredentials(true);;
     }
 
     @Override
