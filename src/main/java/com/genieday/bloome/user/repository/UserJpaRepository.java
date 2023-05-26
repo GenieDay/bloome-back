@@ -1,6 +1,6 @@
 package com.genieday.bloome.user.repository;
 
-import com.genieday.bloome.user.domain.User;
+import com.genieday.bloome.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
