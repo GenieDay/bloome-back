@@ -1,4 +1,4 @@
-package com.genieday.bloome.user.domain;
+package com.genieday.bloome.user;
 
 import lombok.Getter;
 
