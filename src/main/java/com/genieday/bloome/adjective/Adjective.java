@@ -11,7 +11,6 @@ import lombok.*;
 @Table(name = "t_adjective")
 public class Adjective {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adj_id")
     private Long id;
 
