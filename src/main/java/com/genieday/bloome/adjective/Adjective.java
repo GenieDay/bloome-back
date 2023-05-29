@@ -12,7 +12,7 @@ import lombok.*;
 public class Adjective {
     @Id
     @Column(name = "adj_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "word", length = 20)
     private String word;
