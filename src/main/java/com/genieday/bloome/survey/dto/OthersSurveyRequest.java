@@ -15,4 +15,5 @@ public class OthersSurveyRequest {
     private String idName;
     private String othersName;
     private List<Integer> words;
+    private String comment;
 }

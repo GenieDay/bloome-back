@@ -100,6 +100,7 @@ public class SurveyService {
                         .name(dto.getOthersName())
                         .user(user)
                         .leaves(count)
+                        .comment(dto.getComment())
                         .build()
         );
         return SurveyResponse.builder()

@@ -43,4 +43,7 @@ public class OthersSurvey {
 
     @Column(name = "leaves")
     private Integer leaves;
+
+    @Column(name = "comment")
+    private String comment;
 }
