@@ -60,6 +60,12 @@ public class UserService {
         }
     }
 
+    public User userExist(String idName){
+        idNameExist(idName);
+        User user = userJpaRepository.findByIdName(idName).get();
+        return user;
+    }
+
     public UserLoginResponse login(UserLoginRequest dto) {
         User user = userJpaRepository.findByIdName(dto.getIdName())
                 .orElseThrow(() -> {
