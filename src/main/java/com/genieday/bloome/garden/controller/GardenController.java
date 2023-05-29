@@ -25,4 +25,5 @@ public class GardenController {
         FlowersResponse flowerResponse = gardenService.getFlowers(idName, authentication.getName().equals(idName));
         return ResponseEntity.ok().body(Result.success(flowerResponse));
     }
+
 }

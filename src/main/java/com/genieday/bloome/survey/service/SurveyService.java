@@ -1,6 +1,8 @@
 package com.genieday.bloome.survey.service;
 
+import com.genieday.bloome.adjective.AdjectiveJpaRepository;
 import com.genieday.bloome.garden.flower.Flower;
+import com.genieday.bloome.report.dto.AdjectiveSet;
 import com.genieday.bloome.survey.DesireSurvey;
 import com.genieday.bloome.survey.OthersSurvey;
 import com.genieday.bloome.survey.SelfSurvey;
@@ -28,6 +30,7 @@ public class SurveyService {
     private final SelfSurveyJpaRepository selfSurveyJpaRepository;
     private final DesireSurveyJpaRepository desireSurveyJpaRepository;
     private final OthersSurveyJpaRepository othersSurveyJpaRepository;
+    private final AdjectiveJpaRepository adjectiveJpaRepository;
     private final UserService userService;
 
     public SurveyResponse self(SurveyRequest dto) {
@@ -120,5 +123,42 @@ public class SurveyService {
                             .build());
         }
         return flowers;
+    }
+
+    public List<AdjectiveSet> adjectiveSets(Long flowerId){
+        OthersSurvey othersSurvey = othersSurveyJpaRepository.findById(flowerId).get();
+        SelfSurvey selfSurvey = selfSurveyJpaRepository.findByUserId(othersSurvey.getUser().getId());
+
+        List<Integer> self = new ArrayList<>();
+        self.add(selfSurvey.getWord1());
+        self.add(selfSurvey.getWord2());
+        self.add(selfSurvey.getWord3());
+        self.add(selfSurvey.getWord4());
+        self.add(selfSurvey.getWord5());
+        self.add(selfSurvey.getWord6());
+
+        List<Integer> others = new ArrayList<>();
+        others.add(othersSurvey.getWord1());
+        others.add(othersSurvey.getWord2());
+        others.add(othersSurvey.getWord3());
+        others.add(othersSurvey.getWord4());
+        others.add(othersSurvey.getWord5());
+        others.add(othersSurvey.getWord6());
+
+        List<AdjectiveSet> adjectiveSets = new ArrayList<>();
+        for (Integer num : others) {
+            if (self.contains(num)) {
+                adjectiveSets.add(AdjectiveSet.builder()
+                                .isMatch(Boolean.TRUE)
+                                .word(adjectiveJpaRepository.findById(num).get().getWord())
+                        .build());
+            } else{
+                adjectiveSets.add(AdjectiveSet.builder()
+                        .isMatch(Boolean.FALSE)
+                        .word(adjectiveJpaRepository.findById(num).get().getWord())
+                        .build());
+            }
+        }
+        return adjectiveSets;
     }
 }
