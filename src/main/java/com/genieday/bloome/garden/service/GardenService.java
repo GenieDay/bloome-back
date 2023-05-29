@@ -19,11 +19,13 @@ public class GardenService {
     private final UserService userService;
     private final SurveyService surveyService;
 
-    public FlowersResponse getFlowers(String idName) {
+    public FlowersResponse getFlowers(String idName, boolean owner) {
         User user = userService.userExist(idName);
         List<Flower> flowers = surveyService.getFlowers(user);
         return FlowersResponse.builder()
                 .flowers(flowers)
+                .name(user.getName())
+                .owner(owner)
                 .build();
     }
 }

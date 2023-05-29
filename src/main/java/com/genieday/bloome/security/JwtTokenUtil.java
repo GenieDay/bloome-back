@@ -29,7 +29,7 @@ public class JwtTokenUtil {
         return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
     }
 
-    public static String getEmail(String token, String secretKey) {
+    public static String getIdName(String token, String secretKey) {
         return extractClaims(token, secretKey).get("idName", String.class);
     }
 

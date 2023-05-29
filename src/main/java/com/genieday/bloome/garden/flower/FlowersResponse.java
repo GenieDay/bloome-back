@@ -12,5 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlowersResponse {
+    private Boolean owner;
+    private String name;
     private List<Flower> flowers;
 }
