@@ -23,12 +23,13 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-    private final BCryptPasswordEncoder encoder;
+
     private final UserJpaRepository userJpaRepository;
+    private final BCryptPasswordEncoder encoder;
     private final RedisAccessTokenUtil redisAccessTokenUtil;
     @Value("${jwt.token.secret}")
     private String secretKey;
-    private long expireTimeMs = 1000 * 60 * 60; // 1h
+    private long expireTimeMs = 1000 * 60 * 60 * 24 * 3; // 3days
 
     public UserJoinResponse join(UserJoinRequest dto) {
         idNameExist(dto.getIdName());
@@ -54,14 +55,13 @@ public class UserService {
         if (user.isPresent()) {
             idNameExist = true;
         }
-        if(idNameExist){
+        if (idNameExist) {
             throw new AppException(AppErrorCode.DUPLICATED_IDNAME,
                     AppErrorCode.DUPLICATED_IDNAME.getMessage());
         }
     }
 
-    public User userExist(String idName){
-        idNameExist(idName);
+    public User userExist(String idName) {
         User user = userJpaRepository.findByIdName(idName).get();
         return user;
     }
