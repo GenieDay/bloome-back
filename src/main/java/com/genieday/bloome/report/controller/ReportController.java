@@ -1,7 +1,7 @@
 package com.genieday.bloome.report.controller;
 
 import com.genieday.bloome.common.Result;
-import com.genieday.bloome.report.dto.ForOwnerFlowerReport;
+import com.genieday.bloome.report.dto.ForOwnerFlowerReportResponse;
 import com.genieday.bloome.report.dto.ForVisitorsFlowerReport;
 import com.genieday.bloome.report.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping("/for-owner/{flowerId}")
-    public ResponseEntity<Result<ForOwnerFlowerReport>> getFlowerByOwner(@PathVariable Long flowerId){
-        ForOwnerFlowerReport flowerReport = reportService.getFlowerbyOwner(flowerId);
+    public ResponseEntity<Result<ForOwnerFlowerReportResponse>> getFlowerByOwner(@PathVariable Long flowerId){
+        ForOwnerFlowerReportResponse flowerReport = reportService.getFlowerbyOwner(flowerId);
         return ResponseEntity.ok().body(Result.success(flowerReport));
     }
 

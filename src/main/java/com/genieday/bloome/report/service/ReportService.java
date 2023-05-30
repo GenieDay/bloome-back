@@ -1,6 +1,7 @@
 package com.genieday.bloome.report.service;
 
 import com.genieday.bloome.report.dto.ForOwnerFlowerReport;
+import com.genieday.bloome.report.dto.ForOwnerFlowerReportResponse;
 import com.genieday.bloome.report.dto.ForVisitorsFlowerReport;
 import com.genieday.bloome.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,11 @@ public class ReportService {
                 .build();
     }
 
-    public ForOwnerFlowerReport getFlowerbyOwner(Long flowerId) {
+    public ForOwnerFlowerReportResponse getFlowerbyOwner(Long flowerId) {
         ForOwnerFlowerReport flowerReport = surveyService.reportForOwner(flowerId);
-        return flowerReport;
+        return ForOwnerFlowerReportResponse.builder()
+                .window(flowerReport)
+                .comment(surveyService.getComment(flowerId))
+                .build();
     }
 }

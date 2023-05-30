@@ -220,4 +220,8 @@ public class SurveyService {
                 .blind(blind)
                 .build();
     }
+
+    public String getComment(Long flowerId){
+        return othersSurveyJpaRepository.findById(flowerId).get().getComment();
+    }
 }
