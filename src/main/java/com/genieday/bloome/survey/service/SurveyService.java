@@ -3,6 +3,7 @@ package com.genieday.bloome.survey.service;
 import com.genieday.bloome.adjective.AdjectiveJpaRepository;
 import com.genieday.bloome.garden.flower.Flower;
 import com.genieday.bloome.report.dto.AdjectiveSet;
+import com.genieday.bloome.report.dto.ForOwnerFlowerReport;
 import com.genieday.bloome.survey.DesireSurvey;
 import com.genieday.bloome.survey.OthersSurvey;
 import com.genieday.bloome.survey.SelfSurvey;
@@ -125,7 +126,7 @@ public class SurveyService {
         return flowers;
     }
 
-    public List<AdjectiveSet> adjectiveSets(Long flowerId){
+    public List<AdjectiveSet> adjectiveSets(Long flowerId) {
         OthersSurvey othersSurvey = othersSurveyJpaRepository.findById(flowerId).get();
         SelfSurvey selfSurvey = selfSurveyJpaRepository.findByUserId(othersSurvey.getUser().getId());
 
@@ -149,10 +150,10 @@ public class SurveyService {
         for (Integer num : others) {
             if (self.contains(num)) {
                 adjectiveSets.add(AdjectiveSet.builder()
-                                .isMatch(Boolean.TRUE)
-                                .word(adjectiveJpaRepository.findById(num).get().getWord())
+                        .isMatch(Boolean.TRUE)
+                        .word(adjectiveJpaRepository.findById(num).get().getWord())
                         .build());
-            } else{
+            } else {
                 adjectiveSets.add(AdjectiveSet.builder()
                         .isMatch(Boolean.FALSE)
                         .word(adjectiveJpaRepository.findById(num).get().getWord())
@@ -160,5 +161,63 @@ public class SurveyService {
             }
         }
         return adjectiveSets;
+    }
+
+    public ForOwnerFlowerReport reportForOwner(Long flowerId) {
+        OthersSurvey othersSurvey = othersSurveyJpaRepository.findById(flowerId).get();
+        SelfSurvey selfSurvey = selfSurveyJpaRepository.findByUserId(othersSurvey.getUser().getId());
+
+        List<Integer> self = new ArrayList<>();
+        self.add(selfSurvey.getWord1());
+        self.add(selfSurvey.getWord2());
+        self.add(selfSurvey.getWord3());
+        self.add(selfSurvey.getWord4());
+        self.add(selfSurvey.getWord5());
+        self.add(selfSurvey.getWord6());
+
+        List<Integer> others = new ArrayList<>();
+        others.add(othersSurvey.getWord1());
+        others.add(othersSurvey.getWord2());
+        others.add(othersSurvey.getWord3());
+        others.add(othersSurvey.getWord4());
+        others.add(othersSurvey.getWord5());
+        others.add(othersSurvey.getWord6());
+
+        List<String> open = new ArrayList<>();
+        for (Integer num : others) {
+            if (self.contains(num)) {
+                open.add(adjectiveJpaRepository.findById(num).get().getWord());
+            }
+        }
+
+        List<String> hidden = new ArrayList<>();
+        for (Integer num : self) {
+            if (!others.contains(num)) {
+                hidden.add(adjectiveJpaRepository.findById(num).get().getWord());
+            }
+        }
+
+        List<String> blind = new ArrayList<>();
+        for (Integer num : others) {
+            if (!self.contains(num)) {
+                blind.add(adjectiveJpaRepository.findById(num).get().getWord());
+            }
+        }
+
+        DesireSurvey desireSurvey = desireSurveyJpaRepository.findByUserId(othersSurvey.getUser().getId());
+        List<String> unknown = new ArrayList<>();
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord1()).get().getWord());
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord2()).get().getWord());
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord3()).get().getWord());
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord4()).get().getWord());
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord5()).get().getWord());
+        unknown.add(adjectiveJpaRepository.findById(desireSurvey.getWord6()).get().getWord());
+
+        return ForOwnerFlowerReport.builder()
+                .unknown(unknown)
+                .open(open)
+                .hidden(hidden)
+                .blind(blind)
+                .build();
     }
 }
