@@ -46,7 +46,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
-            flag = false;
+            flag = false; // 회원이 아닌 visitor 구별하는 flag
         }
 
         if (flag){
