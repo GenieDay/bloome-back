@@ -52,4 +52,16 @@ public class UserController {
         UserLoginResponse userLoginResponse = userService.login(userLoginRequest);
         return ResponseEntity.ok().body(Result.success(userLoginResponse));
     }
+
+    @PostMapping("/find-pw")
+    public ResponseEntity<Result<UserFindPwResponse>> findPw(@RequestBody UserIdNameCheckRequest userIdNameCheckRequest) {
+        UserFindPwResponse userFindPwResponse = userService.findPw(userIdNameCheckRequest);
+        return ResponseEntity.ok().body(Result.success(userFindPwResponse));
+    }
+
+    @PostMapping("/change-pw")
+    public ResponseEntity<Result<UserIdNameCheckResponse>> changePw(@RequestBody UserChangePwRequest userChangePwRequest) {
+        UserIdNameCheckResponse response = userService.changePw(userChangePwRequest);
+        return ResponseEntity.ok().body(Result.success(response));
+    }
 }

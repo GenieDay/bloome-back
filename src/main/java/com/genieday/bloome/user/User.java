@@ -30,4 +30,8 @@ public class User {
 
     @Column(name = "name", length = 10)
     private String name;
+
+    public void changePassword(String password){
+        this.password = password;
+    }
 }
